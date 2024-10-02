@@ -1,122 +1,46 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-    <base href="/" />
-
-    <meta charset="UTF-8" />
-    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-    <meta name="description" content="Online hra Rise of Pilgrims" />
-
-    <!-- iOS meta tags & icons -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Rise of Pilgrims" />
-    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-    <title>Rise of Pilgrims</title>
-    <link rel="manifest" href="manifest.json" />
-
-    <!-- loading screen CSS -->
-    <link rel="stylesheet" href="main.css" />
-
-    <script>
-      // The value below is injected by flutter build, do not touch.
-      const serviceWorkerVersion = "2448913901";
-    </script>
-    <!-- This script adds the flutter initialization JS code -->
-    <script src="flutter.js" defer></script>
-  </head>
-  <body>
-    <div id="splash-screen">
-      <div class="logo-container">
-        <img class="logo" src="logo.png" />
-      </div>
-      <div class="loading-container">
-        <p class="loading-title">Loading...</p>
-        <div id="loading-bar"></div>
-        <div class="loading-message-container">
-          <p id="loading-message"></p>
-        </div>
-      </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Download Our Game</title>
+</head>
+<body>
+    <div class="banner">
+        <h1>Download Our Game</h1>
+        <div class="user-icon" id="user-icon" title="User Account">&#128100;</div>
     </div>
 
-    <!-- Facebook Sign In -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <div class="container">
+        <p class="price">Price: <span>$5</span></p>
 
-    <!-- Turn the screen if on portrait message -->
-    <script>
-      if (window.matchMedia('(orientation: portrait)').matches) {
-        alert('Please turn your screen to landscape mode.');
-      }
-    </script>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="login">Login</button>
+            <button class="tab-button" data-tab="purchase">Purchase</button>
+            <button class="tab-button hidden" data-tab="download">Download</button>
+        </div>
 
-    <script>
-      const splashScreen = document.getElementById('splash-screen');
-      const loadingMessageElement = document.getElementById('loading-message');
-      const loadingBar = document.getElementById('loading-bar');
+        <form id="login-form" class="form tab-content active" data-tab="login">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
 
-      const randomMessages = [
-        'Načítám databázi her hráčky moonolight',
-        'Pokládám klády na trať',
-        'Připravuji si kávu',
-        'Dávám follow na tiktok Jana Ruzny',
-        'Leštím penízky',
-        'Připravuji se na bramborovou revoluci',
-        'Brambory do akce!',
-      ];
+        <div id="purchase-section" class="tab-content" data-tab="purchase">
+            <h2>Purchase Game</h2>
+            <button id="buy-button">Buy Now</button>
+            <p class="game-description">Experience an adventure like never before! Explore vast lands, conquer challenges, and become the hero of your own story.</p>
+            <img src="https://i.imgur.com/IFO8Bob.png" alt="Game Icon" class="game-icon"> <!-- Add your game icon here -->
+        </div>
 
-      let randomIndex = Math.round(Math.random() * (randomMessages.length - 1));
+        <div id="download-section" class="tab-content" data-tab="download">
+            <h2>Download Your Game</h2>
+            <a href="#" id="download-link" class="download-button">Download Game</a>
+        </div>
+    </div>
 
-      const updateMessage = () => {
-        loadingMessageElement.innerHTML = randomMessages[randomIndex];
-      };
-
-      const changeMessage = () => {
-        const messages = randomMessages.filter((message, index) => index !== randomIndex);
-        const messageIndex = Math.round(Math.random() * (messages.length - 1));
-        randomIndex = randomMessages.indexOf(messages[messageIndex]);
-        updateMessage();
-      };
-
-      updateMessage();
-
-      const messageInterval = setInterval(changeMessage, 2000);
-
-      window.addEventListener('load', function (ev) {
-        // Download main.dart.js
-        _flutter.loader.loadEntrypoint({
-          serviceWorker: {
-            serviceWorkerVersion: serviceWorkerVersion,
-          },
-          onEntrypointLoaded: async function (engineInitializer) {
-            loadingBar.style.setProperty('--percentage', '60%');
-            let appRunner = await engineInitializer.initializeEngine();
-
-            loadingBar.style.setProperty('--percentage', '100%');
-            await appRunner.runApp();
-            setTimeout(() => {
-              clearInterval(messageInterval);
-              splashScreen.remove();
-            }, 1000);
-          },
-        });
-      });
-    </script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
